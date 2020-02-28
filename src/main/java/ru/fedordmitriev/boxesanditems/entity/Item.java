@@ -1,19 +1,16 @@
 package ru.fedordmitriev.boxesanditems.entity;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
-import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
 @Table
-@JacksonXmlRootElement(localName = "Item")
 public class Item implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JacksonXmlProperty(isAttribute = true)
     private Long id;
 
@@ -21,9 +18,9 @@ public class Item implements Serializable {
     @JacksonXmlProperty(isAttribute = true)
     private String color;
 
-    @JsonProperty("box")
-    @ManyToOne(targetEntity = Box.class, cascade=CascadeType.PERSIST)
+    @ManyToOne(targetEntity = Box.class, cascade = CascadeType.ALL)
     @JoinColumn(name = "parent_box_id")
+    @JsonIgnore
     private Box parentBox;
 
     public Item() {
